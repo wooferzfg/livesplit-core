@@ -1,6 +1,6 @@
 //! A Timer provides all the capabilities necessary for doing speedrun attempts.
 
-use super::{output_str, output_time, output_time_span, output_vec};
+use super::{output_str, output_time, output_time_span, output_vec, str};
 use crate::run::{NullableOwnedRun, OwnedRun};
 use crate::shared_timer::OwnedSharedTimer;
 use livesplit_core::run::saver;
@@ -199,6 +199,11 @@ pub extern "C" fn Timer_switch_to_next_comparison(this: &mut Timer) {
 #[no_mangle]
 pub extern "C" fn Timer_switch_to_previous_comparison(this: &mut Timer) {
     this.switch_to_previous_comparison();
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn Timer_set_current_comparison(this: &mut Timer, comparison: *const c_char) {
+    this.set_current_comparison(str(comparison));
 }
 
 /// Returns whether Game Time is currently initialized. Game Time
